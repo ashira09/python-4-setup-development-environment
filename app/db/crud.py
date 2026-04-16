@@ -30,7 +30,7 @@ class BookCRUD:
         book.price = price
         book.url = url
         book.category_id = category_id
-        session.refresh(book)
+        session.add(book)
         return book
 
     def delete_book(self, id: int, session: Session):
@@ -66,7 +66,7 @@ class CategoryCRUD:
     def update_category(self, id: int, title: str, session: Session):
         category = self.read_category(id, session)
         category.title = title
-        session.refresh(category)
+        session.add(category)
         return category
 
     def delete_category(self, id: int, session: Session):

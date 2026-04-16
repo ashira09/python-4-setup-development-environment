@@ -68,9 +68,3 @@ with Session(engine) as session:
         session=session
     )
     session.commit()
-    
-    fiction_category.books.append(tummannost_andromedy)
-    fiction_category.books.append(mi)
-    fantasy_category.books.append(dom_sekretov)
-    fantasy_category.books.append(vedmak_mech_prednaznacheniya)
-    session.commit()
