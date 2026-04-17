@@ -1,27 +1,31 @@
-from pydantic import BaseModel
-from typing import List
+from pydantic import BaseModel, ConfigDict
 
-class FilterBookList(BaseModel):
-    category_ids: List[int]
-
-class CreateBook(BaseModel):
+class Book(BaseModel):
     title: str
     description: str
     price: float
     url: str
     category_id: int
 
-class UpdateBook(CreateBook):
-    book_id: int
+class CreateBook(Book):
+    pass
 
-class DeleteBook(BaseModel):
-    book_id: int
+class UpdateBook(Book):
+    pass
 
-class CreateCategory(BaseModel):
+class BookResponse(Book):
+    id: int | None
+    model_config = ConfigDict(from_attributes=True)
+
+class Category(BaseModel):
     title: str
 
-class UpdateCategory(CreateCategory):
-    category_id: int
+class CreateCategory(Category):
+    pass
 
-class DeleteCategory(BaseModel):
-    category_id: int
+class UpdateCategory(Category):
+    pass
+
+class CategoryResponse(Category):
+    id: int | None
+    model_config = ConfigDict(from_attributes=True)
