@@ -2,7 +2,7 @@ from db.db import connect_to_database
 from dotenv import load_dotenv
 from db.models import Base
 from db.crud import CategoryCRUD, BookCRUD
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import sessionmaker
 import os
 
 load_dotenv()
@@ -24,13 +24,15 @@ engine = connect_to_database(
     db_password = db_password
 )
 
+SessionLocal = sessionmaker(autoflush=False, bind=engine)
+
 Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
 categoryCRUD = CategoryCRUD()
 bookCRUD = BookCRUD()
 
-with Session(engine) as session:
+with SessionLocal() as session:
     fiction_category = categoryCRUD.create_category(title='Фантастика', session=session)
     fantasy_category = categoryCRUD.create_category(title='Фэнтези', session=session)
     session.commit()

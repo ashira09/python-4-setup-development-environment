@@ -1,14 +1,12 @@
-from init_db import categoryCRUD, bookCRUD, engine
-from sqlalchemy.orm import Session
-from pprint import pp
+from init_db import categoryCRUD, bookCRUD, SessionLocal
 
 print('Hello, World!')
 
-with Session(engine) as session:
+with SessionLocal() as session:
     books = bookCRUD.read_all_books(session)
     categories = categoryCRUD.read_all_categories(session)
     fiction_books = bookCRUD.read_all_books_by_category(1, session) # из таблицы Book
-    fantasy_books = bookCRUD.read_all_books_by_category(2, session) # из таблицы Category
+    fantasy_books = bookCRUD.read_all_books_by_category(2, session) # из таблицы Book
     # fiction_books = categoryCRUD.read_all_books_by_category(1, session) # из таблицы Category
     # fantasy_books = categoryCRUD.read_all_books_by_category(2, session) # из таблицы Category
     print('Добавленные книги: ', ', '.join(['"' + book.title + '"' for book in books]))

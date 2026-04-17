@@ -3,6 +3,11 @@ from db.models import Book
 from db.models import Category
 from sqlalchemy import select
 
+class UndefinedObjectException(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(message)
+
 class BookCRUD:
     def create_book(self, title: str, description: str, price: float, url: str, category_id: int, session: Session):
         book = Book(
@@ -21,7 +26,7 @@ class BookCRUD:
         if book is not None:
             return book
         else:
-            raise Exception("Книга не найдена!")
+            raise UndefinedObjectException("Книга не найдена")
     
     def update_book(self, id: int, title: str, description: str, price: float, url: str, category_id: int, session: Session):
         book = self.read_book(id, session)
@@ -36,6 +41,7 @@ class BookCRUD:
     def delete_book(self, id: int, session: Session):
         book = self.read_book(id, session)
         session.delete(book)
+        return book
 
     def read_all_books(self, session: Session):
         books = select(Book)
@@ -61,7 +67,7 @@ class CategoryCRUD:
         if category is not None:
             return category
         else:
-            raise Exception("Категория не найдена!")
+            raise UndefinedObjectException("Категория не найдена")
     
     def update_category(self, id: int, title: str, session: Session):
         category = self.read_category(id, session)
@@ -72,6 +78,7 @@ class CategoryCRUD:
     def delete_category(self, id: int, session: Session):
         category = self.read_category(id, session)
         session.delete(category)
+        return category
 
     def read_all_categories(self, session: Session):
         categories = select(Category)
