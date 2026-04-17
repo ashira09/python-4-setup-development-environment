@@ -23,7 +23,7 @@ class Book(Base):
     category: Mapped["Category"] = relationship("Category", back_populates="books")
 
     def __repr__(self) -> str:
-        return f"Book(id={self.id!r}, title={self.title!r}, description={self.description!r}, price={self.price!r}, url={self.url!r})"
+        return f"Book(id={self.id!r}, title={self.title!r}, description={self.description!r}, price={self.price!r}, url={self.url!r}, category_id={self.category_id!r})"
 
 class Category(Base):
     __tablename__ = "categories"
@@ -31,7 +31,7 @@ class Category(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column(Text)
     
-    books: Mapped[List["Book"]] = relationship("Book", back_populates="category", cascade="all, delete-orphan")
+    books: Mapped[List["Book"]] = relationship("Book", back_populates="category")
 
     def __repr__(self) -> str:
-        return f"Category(id={self.id!r}, name={self.title!r})"
+        return f"Category(id={self.id!r}, title={self.title!r})"
