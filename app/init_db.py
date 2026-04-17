@@ -5,6 +5,13 @@ from db.crud import CategoryCRUD, BookCRUD
 from sqlalchemy.orm import sessionmaker
 import os
 
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
+
 load_dotenv()
 
 db_host = os.getenv('DB_HOST')
